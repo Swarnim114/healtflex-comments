@@ -1,14 +1,19 @@
 import React from 'react';
 import Comment from './Comment';
+import { Box, Button, Typography } from '@mui/material';
 
 const CommentList = ({ comments, onEdit, onDelete, onReply, toggleSortOrder, isAscending }) => {
   return (
-    <div>
-      <div className="sort-bar">
-        <button onClick={toggleSortOrder}>
+    <Box sx={{ width: '100%', maxWidth: 800, margin: 'auto', padding: 2 }}>
+      <Box sx={{ marginBottom: 2, display: 'flex', justifyContent: 'flex-end' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={toggleSortOrder}
+        >
           Sort by date: {isAscending ? 'Ascending' : 'Descending'}
-        </button>
-      </div>
+        </Button>
+      </Box>
       {comments.map((comment) => (
         <Comment
           key={comment.id}
@@ -18,7 +23,7 @@ const CommentList = ({ comments, onEdit, onDelete, onReply, toggleSortOrder, isA
           onReply={onReply}
         />
       ))}
-    </div>
+    </Box>
   );
 };
 

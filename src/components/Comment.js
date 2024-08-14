@@ -22,7 +22,7 @@ const Comment = ({ comment, onEdit, onDelete, onReply }) => {
   };
 
   return (
-    <Paper elevation={1} sx={{ padding: 2, marginBottom: 2 }}>
+    <Paper elevation={1} sx={{ padding: 2, marginBottom: 2, position: 'relative' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="body1" fontWeight="bold">
           {comment.name}
@@ -37,7 +37,20 @@ const Comment = ({ comment, onEdit, onDelete, onReply }) => {
             year: '2-digit',
           })}
         </Typography>
-        <IconButton onClick={() => onDelete(comment.id)} size="small" color="error">
+        <IconButton
+          onClick={() => onDelete(comment.id)}
+          size="small"
+          color="error"
+          sx={{
+            position: 'absolute',
+            right: -12,
+            top: '50%',
+            transform: 'translateY(-50%)',
+            backgroundColor: '#fff',
+            borderRadius: '50%',
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+          }}
+        >
           <FontAwesomeIcon icon={faTrash} />
         </IconButton>
       </Box>
