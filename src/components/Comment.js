@@ -44,7 +44,7 @@ const Comment = ({ comment, onEdit, onDelete, onReply }) => {
           sx={{
             position: 'absolute',
             right: -12,
-            top: '50%',
+            top: '1%',
             transform: 'translateY(-50%)',
             backgroundColor: '#fff',
             borderRadius: '50%',
@@ -83,7 +83,7 @@ const Comment = ({ comment, onEdit, onDelete, onReply }) => {
         </Box>
       )}
       {comment.replies && comment.replies.map((reply) => (
-        <Box key={reply.id} sx={{ marginLeft: 3, marginTop: 2 }}>
+        <Box key={reply.id} sx={{ marginLeft: 3, marginTop: 2 ,}}>
           <Comment
             comment={reply}
             onEdit={onEdit}
