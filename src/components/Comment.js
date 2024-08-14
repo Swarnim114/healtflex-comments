@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CommentForm from './CommentForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Box, Typography, IconButton, Button, TextField, Paper } from '@mui/material';
 
 const Comment = ({ comment, onEdit, onDelete, onReply }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -21,10 +22,12 @@ const Comment = ({ comment, onEdit, onDelete, onReply }) => {
   };
 
   return (
-    <div className="comment">
-      <div className="comment-header">
-        <strong>{comment.name}</strong>
-        <span className="date">
+    <Paper elevation={1} sx={{ padding: 2, marginBottom: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant="body1" fontWeight="bold">
+          {comment.name}
+        </Typography>
+        <Typography variant="caption" color="textSecondary">
           {new Date(comment.date).toLocaleString('en-GB', {
             hour: '2-digit',
             minute: '2-digit',
@@ -33,40 +36,50 @@ const Comment = ({ comment, onEdit, onDelete, onReply }) => {
             month: '2-digit',
             year: '2-digit',
           })}
-        </span>
-        <FontAwesomeIcon
-          icon={faTrash}
-          className="delete-icon"
-          onClick={() => onDelete(comment.id)}
-        />
-      </div>
+        </Typography>
+        <IconButton onClick={() => onDelete(comment.id)} size="small" color="error">
+          <FontAwesomeIcon icon={faTrash} />
+        </IconButton>
+      </Box>
       {isEditing ? (
-        <textarea
+        <TextField
           value={newText}
           onChange={(e) => setNewText(e.target.value)}
-          className="edit-textarea"
+          variant="outlined"
+          fullWidth
+          multiline
+          rows={3}
+          sx={{ marginTop: 1 }}
         />
       ) : (
-        <p>{comment.text}</p>
+        <Typography variant="body2" sx={{ marginTop: 1 }}>
+          {comment.text}
+        </Typography>
       )}
-      <div className="comment-actions">
-        <button onClick={handleEdit}>{isEditing ? 'Save' : 'Edit'}</button>
-        <button onClick={() => setIsReplying(!isReplying)}>Reply</button>
-      </div>
+      <Box sx={{ display: 'flex', gap: 2, marginTop: 1 }}>
+        <Button variant="text" size="small" onClick={handleEdit}>
+          {isEditing ? 'Save' : 'Edit'}
+        </Button>
+        <Button variant="text" size="small" onClick={() => setIsReplying(!isReplying)}>
+          Reply
+        </Button>
+      </Box>
       {isReplying && (
-        <CommentForm onSubmit={(reply) => handleReply({ ...reply, id: Math.random().toString(36).substr(2, 9), parentId: comment.id })} parentId={comment.id} />
+        <Box sx={{ marginTop: 2 }}>
+          <CommentForm onSubmit={(reply) => handleReply({ ...reply, id: Math.random().toString(36).substr(2, 9), parentId: comment.id })} parentId={comment.id} />
+        </Box>
       )}
       {comment.replies && comment.replies.map((reply) => (
-        <div key={reply.id} className="nested-comment">
+        <Box key={reply.id} sx={{ marginLeft: 3, marginTop: 2 }}>
           <Comment
             comment={reply}
             onEdit={onEdit}
             onDelete={onDelete}
             onReply={onReply}
           />
-        </div>
+        </Box>
       ))}
-    </div>
+    </Paper>
   );
 };
 

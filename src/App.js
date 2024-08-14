@@ -3,7 +3,7 @@ import CommentForm from './components/CommentForm';
 import CommentList from './components/CommentList';
 import { useDispatch, useSelector } from 'react-redux';
 import { addComment, editComment, deleteComment, setComments } from './redux/commentsSlice';
-import './index.css';
+import { Container, Box, Paper } from '@mui/material';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -52,17 +52,21 @@ const App = () => {
   });
 
   return (
-    <div className="App">
-      <CommentForm onSubmit={handleAddComment} />
-      <CommentList
-        comments={sortedComments}
-        onEdit={handleEditComment}
-        onDelete={handleDeleteComment}
-        onReply={handleReplyComment}
-        toggleSortOrder={toggleSortOrder}
-        isAscending={isAscending}
-      />
-    </div>
+    <Container maxWidth="lg">
+      <Box my={4}>
+        <Paper elevation={3} sx={{ padding: 3 }}>
+          <CommentForm onSubmit={handleAddComment} />
+          <CommentList
+            comments={sortedComments}
+            onEdit={handleEditComment}
+            onDelete={handleDeleteComment}
+            onReply={handleReplyComment}
+            toggleSortOrder={toggleSortOrder}
+            isAscending={isAscending}
+          />
+        </Paper>
+      </Box>
+    </Container>
   );
 };
 
