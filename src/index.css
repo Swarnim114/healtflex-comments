@@ -33,35 +33,71 @@ body {
 
 .textarea {
   height: 60px;
+  resize: vertical;
 }
 
 .post-button {
   align-self: flex-end;
   padding: 10px 20px;
-  background-color: #007BFF;
+  background-color: #0079d3;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
 .post-button:hover {
-  background-color: #0056b3;
+  background-color: #005fa3;
 }
 
 /* Comment styling */
 .comment {
   border: 1px solid #e0e0e0;
-  padding: 15px;
+  padding: 10px;
   margin-bottom: 10px;
-  border-radius: 8px;
+  border-radius: 4px;
   position: relative;
+  background-color: #fff;
+}
+
+/* Nested comments styling */
+.nested-comment {
+  margin-left: 15px;
+  border-left: 2px solid #0079d3;
+  padding-left: 10px;
+  margin-top: 10px;
 }
 
 .comment-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+/* Delete icon */
+.delete-icon {
+  cursor: pointer;
+  color: #888;
+}
+
+.comment-header strong {
+  font-size: 14px;
+  color: #1a1a1b;
+  margin-right: 5px;
+}
+
+.date {
+  font-size: 12px;
+  color: #7c7c7c;
+}
+
+.comment-content {
+  font-size: 14px;
+  color: #1a1a1b;
+  margin-bottom: 5px;
 }
 
 .comment-actions {
@@ -72,30 +108,48 @@ body {
 .comment-actions button {
   background: none;
   border: none;
-  color: #007BFF;
+  color: #878a8c;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: bold;
   padding: 0;
+  transition: color 0.3s ease;
 }
 
 .comment-actions button:hover {
-  text-decoration: underline;
+  color: #0079d3;
 }
 
 .edit-textarea {
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  resize: vertical;
 }
 
-.date {
-  font-size: 12px;
-  color: gray;
+.reply-form {
+  margin-top: 10px;
 }
 
-.comment-list {
-  margin-top: 20px;
+/* Sorting button */
+.sort-button {
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Adjust indentation for deeper nested comments */
+.nested-comment .nested-comment {
+  margin-left: 10px;
+}
+
+.nested-comment .nested-comment .nested-comment {
+  margin-left: 5px;
 }

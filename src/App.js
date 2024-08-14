@@ -3,10 +3,11 @@ import CommentForm from './components/CommentForm';
 import CommentList from './components/CommentList';
 import { useDispatch, useSelector } from 'react-redux';
 import { addComment, editComment, deleteComment, setComments } from './redux/commentsSlice';
+import './index.css';
 
 const App = () => {
   const dispatch = useDispatch();
-  const comments = useSelector((state) => state.comments.comments);
+  const comments = useSelector((state) => state.comments.comments) || [];
   const [isAscending, setIsAscending] = useState(true);
 
   // Load comments from localStorage on initial render
@@ -19,11 +20,13 @@ const App = () => {
 
   // Save comments to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem('comments', JSON.stringify(comments));
+    if (comments.length) {
+      localStorage.setItem('comments', JSON.stringify(comments));
+    }
   }, [comments]);
 
   const handleAddComment = (comment) => {
-    dispatch(addComment({ ...comment, id: Math.random().toString(36).substr(2, 9) }));
+    dispatch(addComment({ ...comment, id: Math.random().toString(36).substr(2, 9), replies: [] }));
   };
 
   const handleEditComment = (id, text) => {
@@ -31,23 +34,21 @@ const App = () => {
   };
 
   const handleDeleteComment = (id) => {
-    dispatch(deleteComment({ id }));
+    dispatch(deleteComment(id));
   };
 
-  const handleReplyComment = (comment) => {
-    dispatch(addComment(comment));
+  const handleReplyComment = (reply) => {
+    dispatch(addComment(reply));
   };
 
   const toggleSortOrder = () => {
-    setIsAscending(!isAscending);
+    setIsAscending((prev) => !prev);
   };
 
   const sortedComments = [...comments].sort((a, b) => {
-    if (isAscending) {
-      return new Date(a.date) - new Date(b.date);
-    } else {
-      return new Date(b.date) - new Date(a.date);
-    }
+    return isAscending
+      ? new Date(a.date) - new Date(b.date)
+      : new Date(b.date) - new Date(a.date);
   });
 
   return (

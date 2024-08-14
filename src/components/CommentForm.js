@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-const CommentForm = ({ onSubmit, parentId }) => {
+const CommentForm = ({ onSubmit, parentId = null }) => {
   const [name, setName] = useState('');
   const [text, setText] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name && text) {
-      onSubmit({ name, text, parentId, date: new Date().toISOString() });
+      onSubmit({ name, text, parentId, date: new Date().toISOString(), replies: [] });
       setName('');
       setText('');
     } else {

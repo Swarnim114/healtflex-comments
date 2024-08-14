@@ -7,16 +7,50 @@ const commentsSlice = createSlice({
   },
   reducers: {
     addComment: (state, action) => {
-      state.comments.push(action.payload);
-    },
-    editComment: (state, action) => {
-      const index = state.comments.findIndex(comment => comment.id === action.payload.id);
-      if (index !== -1) {
-        state.comments[index].text = action.payload.text;
+      const { parentId, ...newComment } = action.payload;
+      if (parentId === null) {
+        state.comments.push(newComment);
+      } else {
+        const addReply = (comments) => {
+          for (let comment of comments) {
+            if (comment.id === parentId) {
+              comment.replies.push(newComment);
+              return;
+            }
+            if (comment.replies.length) {
+              addReply(comment.replies);
+            }
+          }
+        };
+        addReply(state.comments);
       }
     },
+    editComment: (state, action) => {
+      const { id, text } = action.payload;
+      const editCommentRecursively = (comments) => {
+        for (let comment of comments) {
+          if (comment.id === id) {
+            comment.text = text;
+            return;
+          }
+          if (comment.replies.length) {
+            editCommentRecursively(comment.replies);
+          }
+        }
+      };
+      editCommentRecursively(state.comments);
+    },
     deleteComment: (state, action) => {
-      state.comments = state.comments.filter(comment => comment.id !== action.payload.id);
+      const deleteCommentRecursively = (comments, id) => {
+        return comments.filter(comment => {
+          if (comment.id === id) return false;
+          if (comment.replies.length) {
+            comment.replies = deleteCommentRecursively(comment.replies, id);
+          }
+          return true;
+        });
+      };
+      state.comments = deleteCommentRecursively(state.comments, action.payload);
     },
     setComments: (state, action) => {
       state.comments = action.payload;
